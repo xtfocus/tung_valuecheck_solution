@@ -3,7 +3,7 @@ import tempfile
 from typing import Tuple, Union
 
 import pytest
-from data_loader import (InvalidFileFormatError, load_txt_file,
+from data_loader import (InvalidFileFormatError, load_directory, load_txt_file,
                          operator_data_type)
 
 
@@ -22,14 +22,40 @@ def test_load_txt_file_valid(
         os.remove(temp_file_path)
 
 
-def test_load_txt_file_invalid_row_length(
-    sample_invalid_row_length_content: str,
+def run_invalid_content_test(
+    invalid_content: str,
+    expected_exception: Exception,
 ) -> None:
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
-        temp_file.write(sample_invalid_row_length_content)
+        temp_file.write(invalid_content)
         temp_file_path = temp_file.name
 
-    with pytest.raises(InvalidFileFormatError):
+    with pytest.raises(expected_exception):
         load_txt_file(temp_file_path)
 
     os.remove(temp_file_path)
+
+
+def test_load_txt_file_invalid_prefix_content(
+    sample_invalid_prefix_content: str,
+) -> None:
+    run_invalid_content_test(sample_invalid_prefix_content, InvalidFileFormatError)
+
+
+def test_load_txt_file_invalid_rate(
+    sample_invalid_rate_content: str,
+) -> None:
+    run_invalid_content_test(sample_invalid_rate_content, InvalidFileFormatError)
+
+
+def test_load_txt_file_invalid_row_length(
+    sample_invalid_row_length_content: str,
+) -> None:
+    run_invalid_content_test(sample_invalid_row_length_content, InvalidFileFormatError)
+
+
+def test_load_directory(sample_data_directory):
+    tempdir, expected_result = sample_data_directory
+
+    result = load_directory(tempdir)
+    assert result == expected_result

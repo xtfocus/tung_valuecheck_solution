@@ -14,3 +14,22 @@ For the first task: data can be loaded as List of Tuples, or more advanced, Data
 
 In a real life scenario setting, the validation should be made sure by data vendor. 
 For demonstration purpose, I implement the first two criteria, assuming the unique constraint is already satisfied.
+
+
+# `tree` output
+```
+├── data
+│   ├── operatorA.txt
+│   ├── operatorB.txt
+│   └── operatorC.txt
+├── data_loader.py # Functions to validate & load txt files into memory
+├── prefix_match.py # Functions to find best options given phone number and operators rate data
+├── main.py
+├── pytest.ini
+├── README.md
+├── requirements.txt
+└── tests
+    ├── conftest.py # Assets for unit testing
+    └── test_load_data.py
+
+```
