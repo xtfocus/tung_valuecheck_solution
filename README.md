@@ -3,8 +3,14 @@
 (aka alaTest / ValueChecker (ICSS) challenge 2023)
 
 The assignment description implies that the solution includes the following sub-tasks:
-
-- Finding the correct prefix given a phone number
+- [x] Loading the data from text files
+- [x] Finding the correct prefix given a phone number
 - Comparing the corresponding rates and return the min
 
+For the first task: data can be loaded as List of Tuples, or more advanced, DataFrame. The important thing is to assure data is valid:
+- Each row must contains two items separated by a whitespace
+- The first item must be an integer, the second one must be float
+- Each row is uniquely defined by the first item
 
+In a real life scenario setting, the validation should be made sure by data vendor. 
+For demonstration purpose, I implement the first two criteria, assuming the unique constraint is already satisfied.
