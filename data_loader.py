@@ -9,6 +9,10 @@ logger = logging.getLogger(__name__)
 
 
 class InvalidFileFormatError(Exception):
+    """
+    Custom exception raised when file's content deemed invalid
+    """
+
     pass
 
 
@@ -29,7 +33,7 @@ def load_txt_file(file_path) -> operator_data_type:
             values = line.strip().split()
             if len(values) != 2:
                 raise InvalidFileFormatError(
-                    f"Invalid format in file {file_path}: {line_number}"
+                    f"Invalid row length in file {file_path}: {line_number}"
                 )
             else:
                 try:
