@@ -29,9 +29,12 @@ This, however, seems like a premature optimization, since:
 - we then have to sort a longer list
 - code is harder to test/maintain (trade-of between speed and modularity)
 
+Finally, because of the assumption that all price lists can fit **together** in the memory, I decide not to export any outputs.
+
 ## Run instruction
 
-0. The only line in `requirements.txt` is `pytest` (whatever version would works)
+0. The code is in Python 3.9, with `logging` and `typing` already included, but I think any above 3.6 would work. I assume you already have Python installed on your side.\
+The only line in `requirements.txt` is `pytest` (whatever version would works).\
 
 1. Copy your txt files to `data/`. Make sure the file name indicates the operator's name
 
