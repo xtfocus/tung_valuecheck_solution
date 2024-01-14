@@ -2,7 +2,6 @@
 
 (aka alaTest / ValueChecker (ICSS) challenge 2023)
 
-
 ## Summarize the assignment
 
 The assignment description implies that the solution includes the following sub-tasks:
@@ -36,14 +35,23 @@ This, however, seems like a premature optimization, since:
 
 1. Copy your txt files to `data/`. Make sure the file name indicates the operator's name
 
-2. From the command line: `$python main.py 567024121`. Replace the number with your target phone number
+2. From the command line: 
+```bash
+python main.py <test_phone_number>
+```
+Replace `test_phone_number` with your target phone number.\
+The best operator choice would be displayed as [`filename`, (`matching_prefix`, `rate`)].\
+If no matching prefix is found, shows `No match found for <phone_number>`.
 
-The best operator choice would be displayed as [`filename`, (`matching_prefix`, `rate`)]
+## Test instruction
 
-If no matching prefix is found, shows "No match found for `phone_number`"
+Modify the assessts you want to test on in `conftest.py`, then
 
+```bash
+pytest -v
+```
 
-# `tree` output
+## `tree` output
 
 ```
 ├── data
