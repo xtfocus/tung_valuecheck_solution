@@ -21,7 +21,7 @@ def operator_rate(
 
 
 
-    Example: prefix A: 4321, prefix B: 432
+    Example: sorted prefices: 84, 4321, 432
 
     Parameters:
     - phone_num (str): The phone number to find the rate for.
@@ -35,17 +35,29 @@ def operator_rate(
 
     # Sorting the rows based on prefixes
     operator_data = sorted(
-        operator_data, key=lambda x: (len(str(x[0])), str(x[0])), reverse=True
+        operator_data,
+        key=lambda x: (str(x[0]), len(str(x[0]))),
+        reverse=True,
     )
 
+    # Early termination uponn finding a match
     found = False
+
+    # Early termination when str(current prefix) < str(phone number)
+    early_terminate = False
+
     row_index = 0
     data_size = len(operator_data)
 
-    while (row_index < data_size) and (not found):
+    while (row_index < data_size) and (not found) and (not early_terminate):
         prefix, rate = operator_data[row_index]
+
+        # Update early_terminate conditions
+        early_terminate = str(prefix) < str(phone_num)
+
         if phone_num.startswith(str(prefix)):
             found = True
+
         row_index += 1
 
     if found:

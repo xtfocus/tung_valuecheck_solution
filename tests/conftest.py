@@ -59,11 +59,12 @@ def sample_data_directory():
 @pytest.fixture(scope="function")
 def sample_data_prefix_match():
     phone_num = "110110124"
-    sample_data = [(1, 1.0), (11, 1.1), (112, 0.9), (12, 0.8)]
+    sample_data = [(1034, 1.0), (11, 1.1), (112, 0.9), (12, 0.8)]
 
     # The result to be returned found found_phone_num
     expected_result = (11, 1.1)
     return (phone_num, sample_data, expected_result)
+
 
 @pytest.fixture(scope="function")
 def sample_data_prefix_nomatch():
@@ -71,5 +72,3 @@ def sample_data_prefix_nomatch():
     sample_data = [(1, 1.0), (11, 1.1), (112, 0.9), (12, 0.8)]
 
     return (phone_num, sample_data)
-
-
