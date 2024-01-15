@@ -1,4 +1,12 @@
-from prefix_match import retrieve_operator_rate
+from prefix_match import retrieve_operator_rate, sort_operator_data
+
+
+def test_sort_operator_data(sample_unsorted_operator_data) -> None:
+    """
+    Testing prefix sorting functionality
+    """
+    operator_data, sorted_operator_data = sample_unsorted_operator_data
+    assert sort_operator_data(operator_data) == sorted_operator_data
 
 
 def test_prefix_match(sample_data_prefix_match) -> None:

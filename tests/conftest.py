@@ -57,6 +57,19 @@ def sample_data_directory():
 
 
 @pytest.fixture(scope="function")
+def sample_unsorted_operator_data():
+    """
+    sample operator data for testing the sort function
+    """
+    prefices = [432, 3, 4321, 37, 84, 372]
+    sorted_prefices = [84, 4321, 432, 372, 37, 3]
+    rates = [1] * len(prefices)
+    operator_data = list(zip(prefices, rates))
+    expected_result = list(zip(sorted_prefices, rates))
+    return (operator_data, expected_result)
+
+
+@pytest.fixture(scope="function")
 def sample_data_prefix_match():
     """
     Sample operator data to test the prefix matching in case a match found

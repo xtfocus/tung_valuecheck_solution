@@ -6,12 +6,8 @@ from data_loader import operator_data_type
 logger = logging.getLogger(__name__)
 
 
-def retrieve_operator_rate(
-    phone_num: str, operator_data: operator_data_type
-) -> Optional[Tuple[int, float]]:
+def sort_operator_data(operator_data: operator_data_type) -> operator_data_type:
     """
-    Find the rate for a given phone number based on the provided operator data.
-
     Sort the data based on prefixes and their length so that:
     - if prefix A `contains` prefix B, prefix A is put before prefix B.
     - prefixes starting with the same sequence is clustered together
@@ -19,9 +15,21 @@ def retrieve_operator_rate(
     This makes sure the best matches appear first, meaning if a match is found
         we can return it immediately.
 
+    Example: sorted prefices: 84, 4321, 432, 372, 37, 3
+
+    """
+    return sorted(
+        operator_data,
+        key=lambda x: (str(x[0]), len(str(x[0]))),
+        reverse=True,
+    )
 
 
-    Example: sorted prefices: 84, 4321, 432
+def retrieve_operator_rate(
+    phone_num: str, operator_data: operator_data_type
+) -> Optional[Tuple[int, float]]:
+    """
+    Find the rate for a given phone number based on the provided operator data.
 
     Parameters:
     - phone_num (str): The phone number to find the rate for.
@@ -34,11 +42,7 @@ def retrieve_operator_rate(
     """
 
     # Sorting the rows based on prefixes
-    operator_data = sorted(
-        operator_data,
-        key=lambda x: (str(x[0]), len(str(x[0]))),
-        reverse=True,
-    )
+    operator_data = sort_operator_data(operator_data)
 
     # Early termination uponn finding a match
     found = False
