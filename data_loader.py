@@ -2,6 +2,7 @@ import logging
 import os
 from typing import Dict, List, Tuple
 
+# Operator price list data type
 operator_data_type = List[Tuple[int, float]]
 
 
@@ -25,6 +26,7 @@ def load_txt_file(file_path) -> operator_data_type:
 
     Returns:
     - A list of tuples containing the data from the file.
+        Each tuple is of type Tuple[int, float]
     """
 
     data = []
@@ -53,8 +55,9 @@ def load_directory(directory_path: str) -> Dict[str, operator_data_type]:
     - directory_path: The path to the directory containing txt files.
 
     Returns:
-    - A list of lists of tuples. Each inner list corresponds to a txt file.
+    - A Dict with keys being operator file names and values are price lists
     """
+
     all_data = dict()
 
     # For logging purpose

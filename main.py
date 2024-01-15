@@ -4,7 +4,6 @@ from compare_operators import compare_operator_rates
 from data_loader import load_directory
 
 if __name__ == "__main__":
-    # Example usage:
     if len(sys.argv) != 2:
         print("Usage: python main.py <phone_number>")
         sys.exit(1)

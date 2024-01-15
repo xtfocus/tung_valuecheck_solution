@@ -17,6 +17,13 @@ def sort_operator_data(operator_data: operator_data_type) -> operator_data_type:
 
     Example: sorted prefices: 84, 4321, 432, 372, 37, 3
 
+    Parameters:
+    - operator_data (List[Tuple[int, float]]): A list of tuples containing
+        prefixes and rates.
+
+    Returns:
+    - (List[Tuple[int, float]]): sorted operator_data
+
     """
     return sorted(
         operator_data,
