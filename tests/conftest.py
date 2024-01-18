@@ -1,5 +1,3 @@
-import os
-import tempfile
 from typing import Tuple, Union
 
 import pytest
@@ -27,33 +25,33 @@ def sample_invalid_row_length_content() -> str:
 
 
 @pytest.fixture(scope="function")
-def sample_data_directory():
+def sample_data_directory(tmp_path):
     """
     Create sample directory for testing load_directory function
     Yield the temporary dir and the expected result
     Tear down once test completes
     """
-    temp_dir = tempfile.mkdtemp()
+
+    # Temp directory for testing
+    tmp_data_dir = tmp_path / "test_data_dir"
+    tmp_data_dir.mkdir()
 
     # Sample text file with valid content
     valid_content = "123 4.56\n789 1.23\n"
-    valid_file_path = os.path.join(temp_dir, "valid_file.txt")
-    with open(valid_file_path, "w") as file:
-        file.write(valid_content)
+    valid_file_path = tmp_data_dir / "valid_file.txt"
 
-    # Sample text file with valid content
+    valid_file_path.write_text(valid_content)
+
+    # Sample text file with invalid content
     invalid_content = "456 7.89\nx12 3.45\n"
-    invalid_file_path = os.path.join(temp_dir, "invalid_file.txt")
-    with open(invalid_file_path, "w") as file:
-        file.write(invalid_content)
+    invalid_file_path = tmp_data_dir / "invalid_file.txt"
 
+    invalid_file_path.write_text(invalid_content)
+
+    # Expect only the valid file loaded into the data dict
     expected_result = {"valid_file.txt": [(123, 4.56), (789, 1.23)]}
-    yield temp_dir, expected_result
 
-    # Clean up: remove the temp directory and its contents
-    for file_path in [valid_file_path, invalid_file_path]:
-        os.remove(file_path)
-    os.rmdir(temp_dir)
+    yield tmp_data_dir, expected_result
 
 
 @pytest.fixture(scope="function")

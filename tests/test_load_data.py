@@ -1,6 +1,5 @@
-import os
-import tempfile
-from typing import Tuple, Union
+from pathlib import Path
+from typing import Dict, Tuple, Union
 
 import pytest
 from data_loader import (InvalidFileFormatError, load_directory, load_txt_file,
@@ -8,48 +7,43 @@ from data_loader import (InvalidFileFormatError, load_directory, load_txt_file,
 
 
 def test_load_txt_file_valid(
-    sample_valid_txt_content: Tuple[Union[str, operator_data_type]]
+    tmp_path: Path, sample_valid_txt_content: Tuple[Union[str, operator_data_type]]
 ) -> None:
     """
     Testing for when the txt content is valid data
     """
-    with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
-        temp_file.write(sample_valid_txt_content[0])
-        temp_file_path = temp_file.name
+    temp_file_path = tmp_path / "operator_test.txt"
+    temp_file_path.write_text(sample_valid_txt_content[0])
 
-    try:
-        result = load_txt_file(temp_file_path)
-        expected_result = sample_valid_txt_content[1]
-        assert result == expected_result
-    finally:
-        os.remove(temp_file_path)
+    result = load_txt_file(temp_file_path)
+    expected_result = sample_valid_txt_content[1]
+    assert result == expected_result
 
 
 def run_invalid_content_test(
-    invalid_content: str, expected_exception: Exception, message: str
+    tmp_path, invalid_content: str, expected_exception: Exception, message: str
 ) -> None:
     """
     General test execution function for load_txt_file when the txt content
         is invalid data
     """
-    with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
-        temp_file.write(invalid_content)
-        temp_file_path = temp_file.name
+    temp_file_path = tmp_path / "operator_test.txt"
+    temp_file_path.write_text(invalid_content)
 
     with pytest.raises(expected_exception) as exception:
         load_txt_file(temp_file_path)
         assert str(exception).startswith(message)
 
-    os.remove(temp_file_path)
-
 
 def test_load_txt_file_invalid_prefix_content(
+    tmp_path: Path,
     sample_invalid_prefix_content: str,
 ) -> None:
     """
     Testing for load_txt_file when when the prefix is invalid
     """
     run_invalid_content_test(
+        tmp_path,
         sample_invalid_prefix_content,
         expected_exception=InvalidFileFormatError,
         message="Invalid row length",
@@ -57,9 +51,11 @@ def test_load_txt_file_invalid_prefix_content(
 
 
 def test_load_txt_file_invalid_rate(
+    tmp_path: Path,
     sample_invalid_rate_content: str,
 ) -> None:
     run_invalid_content_test(
+        tmp_path,
         sample_invalid_rate_content,
         expected_exception=InvalidFileFormatError,
         message="Invalid data type",
@@ -67,16 +63,20 @@ def test_load_txt_file_invalid_rate(
 
 
 def test_load_txt_file_invalid_row_length(
+    tmp_path: Path,
     sample_invalid_row_length_content: str,
 ) -> None:
     run_invalid_content_test(
+        tmp_path,
         sample_invalid_row_length_content,
         expected_exception=InvalidFileFormatError,
         message="Invalid data type",
     )
 
 
-def test_load_directory(sample_data_directory):
+def test_load_directory(
+    sample_data_directory: Tuple[Path, Dict[str, operator_data_type]]
+):
     """
     Testing test_load_directory
     """

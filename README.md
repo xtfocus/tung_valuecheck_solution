@@ -2,6 +2,8 @@
 
 (aka alaTest / ValueChecker (ICSS) challenge 2023)
 
+- [x] Update 2024-18-01: Use tmp_path for temporary dir in `tests/conftest.py`
+
 ## Summarize the assignment
 
 The assignment description implies that the solution includes the following sub-tasks:
