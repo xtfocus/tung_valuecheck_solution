@@ -27,7 +27,7 @@ def sort_operator_data(operator_data: operator_data_type) -> operator_data_type:
     """
     return sorted(
         operator_data,
-        key=lambda x: (str(x[0]), len(str(x[0]))),
+        key=lambda x: str(x[0]),
         reverse=True,
     )
 
